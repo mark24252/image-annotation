@@ -47,7 +47,8 @@ def upload_images(
             ImageRead(
                 id=image.id,
                 filename=image.filename,
-                url=f"/static/images/{project_id}/{stored_filename}"
+                url=f"/static/images/{project_id}/{stored_filename}",
+                project_id=project_id
             )
         )
 
@@ -64,7 +65,8 @@ def get_images(
         ImageRead(
             id=img.id,
             filename=img.filename,
-            url=f"/static/images/{img.project_id}/{os.path.basename(img.file_path)}"
+            url=f"/static/images/{img.project_id}/{os.path.basename(img.file_path)}",
+            project_id=img.project_id
         )
         for img in images
     ]
@@ -82,6 +84,7 @@ def get_image(
         id=image.id,
         filename=image.filename,
         url=f"/static/images/{image.project_id}/{os.path.basename(image.file_path)}",
+        project_id=image.project_id
     )
 
 @router.delete("/images/{image_id}")

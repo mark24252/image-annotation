@@ -3,15 +3,29 @@ import { getImages, uploadImages, deleteImage } from "../api/images"
 
 export const useImagesStore = defineStore("images", {
   state: () => ({
-    images: [],
+    imagesByProject: {},
     loading: false
   }),
 
+  getters: {
+    images: (state) => (projectId) => {
+      return state.imagesByProject[projectId] || []
+    }
+  },
+
   actions: {
     async load(projectId) {
+      if (!projectId) return
+      
       this.loading = true
-      this.images = (await getImages(projectId)).data
-      this.loading = false
+      try {
+        const response = await getImages(projectId)
+        this.$patch((state) => {
+          state.imagesByProject[projectId] = response.data
+        })
+      } finally {
+        this.loading = false
+      }
     },
 
     async upload(projectId, files) {

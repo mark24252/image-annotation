@@ -20,7 +20,6 @@ app.add_middleware(
 
 @app.on_event("startup")
 def on_startup():
-    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     os.makedirs("app/static", exist_ok=True)
     os.makedirs("app/static/images", exist_ok=True)

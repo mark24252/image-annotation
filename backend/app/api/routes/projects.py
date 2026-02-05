@@ -32,6 +32,16 @@ def create_project(
 def get_projects(db: Session = Depends(get_db)):
     return db.query(Project).all()
 
+@router.get("/{project_id}", response_model=ProjectRead)
+def get_project(
+    project_id: str,
+    db: Session = Depends(get_db)
+):
+    project = db.get(Project, project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return project
+
 @router.delete("/{project_id}")
 def delete_project(
     project_id: str,

@@ -10,6 +10,7 @@ class ImageRead(BaseModel):
     id: str
     filename: str
     url: str
+    project_id: str
 
     if ConfigDict is not None:
         model_config = ConfigDict(from_attributes=True)
